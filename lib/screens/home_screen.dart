@@ -1,9 +1,13 @@
-  import 'package:flutter/material.dart';
-  import 'upload_exams_screen.dart';
-  import 'competitive_exams_screen.dart';
-  import 'career_assessment_screen.dart';
-  import 'chatbot_screen.dart';
-  import 'college_explorer.dart';
+import 'package:flutter/material.dart';
+import 'upload_exams_screen.dart';
+import 'competitive_exams_screen.dart';
+import 'career_assessment_screen.dart';
+import 'chatbot_screen.dart';
+import 'college_explorer.dart';
+import 'dashboard.dart';
+import 'profile_screen.dart';
+import 'mentors_screen.dart';
+import 'locate_colleges_screen.dart';
   class HomeScreen extends StatefulWidget {
     const HomeScreen({Key? key}) : super(key: key);
 
@@ -274,6 +278,137 @@
           },
           backgroundColor: Colors.blue.shade400,
           child: const Icon(Icons.chat_bubble_outline_rounded, size: 20),
+        ),
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.blue.shade600,
+                ),
+                child: const Text(
+                  'Menu',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              ListTile(
+                leading: const Icon(Icons.dashboard),
+                title: const Text('Dashboard'),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const Dashboard()),
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.person),
+                title: const Text('My Profile'),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const ProfileScreen(
+                        name: "User",
+                        email: "user@example.com",
+                        phone: "+91XXXXXXXXXX",
+                      ),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.library_books),
+                title: const Text('Course Suggestions'),
+                onTap: () {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Course Suggestions coming soon')),
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.work_outline),
+                title: const Text('Career Paths'),
+                onTap: () {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Career Paths coming soon')),
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.location_on),
+                title: const Text('Compare Colleges'),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const CollegeExplorer()),
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.notifications),
+                title: const Text('Notifications'),
+                onTap: () {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Notifications coming soon')),
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.people),
+                title: const Text('My Mentors'),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const MentorsScreen()),
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.map),
+                title: const Text('Locate Colleges'),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const LocateCollegesScreen()),
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.contact_mail),
+                title: const Text('Contact Us'),
+                onTap: () {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Contact Us coming soon')),
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.settings),
+                title: const Text('Settings'),
+                onTap: () {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Settings coming soon')),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       );
     }

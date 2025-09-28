@@ -45,5 +45,9 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+
+	<!-- Google Maps API Key for iOS -->
+	<key>GoogleMapsApiKey</key>
+	<string>YOUR_GOOGLE_MAPS_API_KEY_HERE</string>
 </dict>
 </plist>

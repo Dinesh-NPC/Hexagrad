@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 class ChatbotScreen extends StatefulWidget {
   const ChatbotScreen({super.key});
@@ -11,7 +12,10 @@ class ChatbotScreen extends StatefulWidget {
 class _ChatbotScreenState extends State<ChatbotScreen> {
   final TextEditingController _controller = TextEditingController();
   final Gemini _gemini = Gemini.instance;
+  final stt.SpeechToText _speech = stt.SpeechToText();
+
   bool _isLoading = false;
+  bool isListening = false;
 
   String selectedLanguage = 'English';
   final List<String> languages = [
@@ -24,8 +28,42 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
   @override
   void initState() {
     super.initState();
-    // Initialize Gemini with your API key
-    Gemini.init(apiKey: 'AIzaSyA5KVxZ0w7kCpjanGJKriDS7h0HUl1xbIY');
+    Gemini.init(apiKey: 'AIzaSyA5KVxZ0w7kCpjanGJKriDS7h0HUl1xbIY'); // Replace with your actual key
+  }
+
+  Future<void> _startListening() async {
+    bool available = await _speech.initialize();
+    if (available) {
+      setState(() => isListening = true);
+      _speech.listen(
+        onResult: (result) {
+          setState(() {
+            _controller.text = result.recognizedWords;
+          });
+        },
+        localeId: _getLocaleId(selectedLanguage),
+      );
+    }
+  }
+
+  void _stopListening() {
+    _speech.stop();
+    setState(() => isListening = false);
+  }
+
+  String _getLocaleId(String lang) {
+    switch (lang) {
+      case 'Hindi': return 'hi-IN';
+      case 'Tamil': return 'ta-IN';
+      case 'Telugu': return 'te-IN';
+      case 'Bengali': return 'bn-IN';
+      case 'Kannada': return 'kn-IN';
+      case 'Malayalam': return 'ml-IN';
+      case 'Marathi': return 'mr-IN';
+      case 'Gujarati': return 'gu-IN';
+      case 'Punjabi': return 'pa-IN';
+      default: return 'en-IN';
+    }
   }
 
   void _sendMessage(String userMessage) async {
@@ -45,10 +83,10 @@ User: $userMessage
 ''';
 
       final result = await _gemini.text(prompt);
-      
+
       setState(() {
         messages.add({
-          'role': 'bot', 
+          'role': 'bot',
           'text': result?.output ?? 'I apologize, but I could not generate a response.'
         });
       });
@@ -148,6 +186,13 @@ User: $userMessage
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             child: Row(
               children: [
+                IconButton(
+                  icon: Icon(
+                    isListening ? Icons.mic_off : Icons.mic,
+                    color: isListening ? Colors.red : Colors.indigo,
+                  ),
+                  onPressed: isListening ? _stopListening : _startListening,
+                ),
                 Expanded(
                   child: TextField(
                     controller: _controller,
