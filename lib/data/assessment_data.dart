@@ -3,46 +3,33 @@ final Map<String, List<Map<String, dynamic>>> assessmentData = {
     {
       "question": "You have to organize a cruise party. How would you go about it?",
       "options": [
-        "Ask for suggestions from people for whom you have to organize it.",
-        "Delegate the work to people who you think could be good at.",
-        "Come up with your own ways of organizing it.",
-        "Read and look for information about how such parties are organized."
+        {"text": "Ask for suggestions from people", "career": "Manager"},
+        {"text": "Delegate the work", "career": "Leader"},
+        {"text": "Come up with your own plan", "career": "Entrepreneur"},
       ]
     },
     {
       "question": "When starting a new project, what do you usually prefer?",
       "options": [
-        "Work with a team and brainstorm together.",
-        "Plan and divide work clearly.",
-        "Experiment and try new approaches.",
-        "Research and learn before starting."
+        {"text": "Work with a team and brainstorm", "career": "Team Player"},
+        {"text": "Plan and divide work clearly", "career": "Manager"},
+        {"text": "Experiment and try new approaches", "career": "Innovator"},
       ]
     },
     {
       "question": "How do you usually take decisions?",
       "options": [
-        "By discussing with others.",
-        "By analyzing pros and cons.",
-        "By following your instincts.",
-        "By reading/researching more."
+        {"text": "By discussing with others", "career": "Manager"},
+        {"text": "By analyzing pros and cons", "career": "Analyst"},
+        {"text": "By following your instincts", "career": "Entrepreneur"},
       ]
     },
     {
-      "question": "If you are leading a team, how do you handle responsibilities?",
+      "question": "When facing challenges, you:",
       "options": [
-        "Take everyone’s opinion.",
-        "Assign roles logically.",
-        "Motivate and inspire.",
-        "Learn from guides/resources."
-      ]
-    },
-    {
-      "question": "What do you value most while working?",
-      "options": [
-        "Team support",
-        "Clear structure",
-        "Freedom to try",
-        "Learning opportunities"
+        {"text": "Look for guidance", "career": "Counselor"},
+        {"text": "Create a new approach", "career": "Innovator"},
+        {"text": "Lead the team to overcome it", "career": "Leader"},
       ]
     },
   ],
@@ -51,96 +38,139 @@ final Map<String, List<Map<String, dynamic>>> assessmentData = {
     {
       "question": "Which activity excites you the most?",
       "options": [
-        "Solving puzzles",
-        "Science experiments",
-        "Art/music",
-        "Business/finance tasks"
+        {"text": "Solving puzzles", "career": "Engineer"},
+        {"text": "Science experiments", "career": "Scientist"},
+        {"text": "Art/music", "career": "Artist"},
       ]
     },
     {
       "question": "If you had free time, what would you enjoy?",
-      "options": ["Tech reading", "Exploring places", "Volunteering", "Creating art"]
+      "options": [
+        {"text": "Tech reading", "career": "Engineer"},
+        {"text": "Exploring places", "career": "Explorer"},
+        {"text": "Creating art", "career": "Artist"},
+      ]
     },
     {
       "question": "Which subject did you enjoy most in school?",
-      "options": ["Maths", "Science", "Literature/Arts", "Economics/Commerce"]
+      "options": [
+        {"text": "Maths", "career": "Engineer"},
+        {"text": "Science", "career": "Scientist"},
+        {"text": "Literature/Arts", "career": "Writer/Artist"},
+      ]
     },
     {
-      "question": "Which hobby best matches you?",
-      "options": ["Coding games", "Nature walks", "Painting", "Stock trading"]
-    },
-    {
-      "question": "Which profession attracts you?",
-      "options": ["Engineer", "Scientist", "Artist/Writer", "Entrepreneur"]
+      "question": "What kind of hobbies do you prefer?",
+      "options": [
+        {"text": "Building models or coding", "career": "Engineer"},
+        {"text": "Writing stories or painting", "career": "Writer/Artist"},
+        {"text": "Exploring nature", "career": "Explorer"},
+      ]
     },
   ],
 
   "Personality": [
     {
       "question": "In a group, how do you behave?",
-      "options": ["Lead", "Support", "Observe", "Share creative ideas"]
+      "options": [
+        {"text": "Lead", "career": "Leader"},
+        {"text": "Support", "career": "Team Player"},
+        {"text": "Observe", "career": "Analyst"},
+      ]
     },
     {
       "question": "If disagreement arises, you:",
-      "options": ["Compromise", "Use logic", "Adapt", "Stick to opinion"]
+      "options": [
+        {"text": "Compromise", "career": "Mediator"},
+        {"text": "Use logic", "career": "Analyst"},
+        {"text": "Adapt", "career": "Entrepreneur"},
+      ]
     },
     {
       "question": "How do you feel about risks?",
-      "options": ["Avoid them", "Take calculated ones", "Love challenges", "Learn from mistakes"]
+      "options": [
+        {"text": "Avoid them", "career": "Planner"},
+        {"text": "Take calculated ones", "career": "Entrepreneur"},
+        {"text": "Love challenges", "career": "Leader"},
+      ]
     },
     {
-      "question": "When stressed, you:",
-      "options": ["Talk to friends", "Plan better", "Stay calm", "Distract yourself"]
-    },
-    {
-      "question": "How do others describe you?",
-      "options": ["Friendly", "Organized", "Creative", "Knowledgeable"]
+      "question": "How do you motivate yourself?",
+      "options": [
+        {"text": "Set clear goals", "career": "Planner"},
+        {"text": "Look for inspiration", "career": "Innovator"},
+        {"text": "Encourage others", "career": "Leader"},
+      ]
     },
   ],
 
   "Aptitude": [
     {
       "question": "If a train travels 60 km in 1.5 hours, what is its speed?",
-      "options": ["30 km/h", "40 km/h", "45 km/h", "50 km/h"]
+      "options": [
+        {"text": "30 km/h", "career": "Analyst"},
+        {"text": "40 km/h", "career": "Engineer"},
+        {"text": "45 km/h", "career": "Scientist"},
+      ]
     },
     {
       "question": "Find the next number in sequence: 2, 4, 8, 16, ?",
-      "options": ["18", "24", "32", "36"]
+      "options": [
+        {"text": "18", "career": "Analyst"},
+        {"text": "24", "career": "Engineer"},
+        {"text": "32", "career": "Scientist"},
+      ]
     },
     {
       "question": "What is 25% of 360?",
-      "options": ["60", "72", "80", "90"]
+      "options": [
+        {"text": "60", "career": "Analyst"},
+        {"text": "72", "career": "Engineer"},
+        {"text": "90", "career": "Scientist"},
+      ]
     },
     {
-      "question": "If 5x = 45, then x = ?",
-      "options": ["5", "7", "9", "11"]
-    },
-    {
-      "question": "Simplify: (12 ÷ 3) × 4",
-      "options": ["12", "14", "16", "18"]
+      "question": "Which skill do you enjoy more?",
+      "options": [
+        {"text": "Math problems", "career": "Engineer"},
+        {"text": "Data analysis", "career": "Analyst"},
+        {"text": "Experiments", "career": "Scientist"},
+      ]
     },
   ],
 
   "Emotional Quotient": [
     {
       "question": "If a friend is upset, you:",
-      "options": ["Listen", "Give solutions", "Cheer them", "Leave alone"]
+      "options": [
+        {"text": "Listen", "career": "Counselor"},
+        {"text": "Give solutions", "career": "Leader"},
+        {"text": "Cheer them", "career": "Team Player"},
+      ]
     },
     {
       "question": "When you fail, you:",
-      "options": ["Get upset but retry", "Stay calm & analyze", "Ask help", "Ignore & move on"]
+      "options": [
+        {"text": "Get upset but retry", "career": "Resilient"},
+        {"text": "Stay calm & analyze", "career": "Analyst"},
+        {"text": "Ignore & move on", "career": "Entrepreneur"},
+      ]
     },
     {
       "question": "If someone insults you, you:",
-      "options": ["Control & stay quiet", "Reply with logic", "Get angry", "Laugh it off"]
-    },
-    {
-      "question": "When in conflict, you:",
-      "options": ["Compromise", "Argue logically", "Avoid fight", "Stay firm"]
+      "options": [
+        {"text": "Control & stay quiet", "career": "Planner"},
+        {"text": "Reply with logic", "career": "Analyst"},
+        {"text": "Laugh it off", "career": "Leader"},
+      ]
     },
     {
       "question": "How do you handle stress?",
-      "options": ["Talk with someone", "Plan calmly", "Take a break", "Keep working"]
+      "options": [
+        {"text": "Meditation & calm", "career": "Planner"},
+        {"text": "Exercise or activity", "career": "Resilient"},
+        {"text": "Talk to someone", "career": "Counselor"},
+      ]
     },
   ],
 };

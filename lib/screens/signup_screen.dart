@@ -150,22 +150,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ),
           Expanded(
             flex: 5,
-            child: Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Color(0xFFFF9933), Color(0xFF138808)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+            child: Stack(
+              children: [
+                // Background image (replace with your own image)
+                Positioned.fill(
+                  child: Image.asset(
+                    'assets/signup_illustration.jpg', // replace with your image path
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-              child: Center(
-                child: Image.asset(
-                  'assets/signup_illustration.jpg', // Add your illustration image here
-                  width: 400,
-                  height: 400,
-                  fit: BoxFit.contain,
+                // Freely positioned text
+                Positioned(
+                  left: 50, // x coordinate
+                  top: 100, // y coordinate
+                  child: Text( //add any text if needed and change the coordinates for better view
+                    "",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         ],

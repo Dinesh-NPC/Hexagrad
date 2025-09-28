@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'home_screen.dart';
-import 'signup_screen.dart'; // Import signup screen
+import 'signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({super.key});
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -20,9 +20,10 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() => _loading = true);
     try {
       await _auth.signInWithEmailAndPassword(
-          email: _emailCtrl.text.trim(), password: _passwordCtrl.text.trim());
+          email: _emailCtrl.text.trim(),
+          password: _passwordCtrl.text.trim());
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (_) => HomeScreen()));
+          context, MaterialPageRoute(builder: (_) => const HomeScreen()));
     } on FirebaseException catch (e) {
       _showError(e.message);
     } catch (e) {
@@ -42,6 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Row(
         children: [
+          // Left side: Login form
           Expanded(
             flex: 5,
             child: Center(
@@ -50,63 +52,111 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
-                      "Login",
-                      style:
-                          TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+                    // Logo
+                    Image.asset(
+                      'assets/logo.png',
+                      height: 100,
+                      width: 100,
                     ),
                     const SizedBox(height: 20),
+                    const Text(
+                      "Login",
+                      style: TextStyle(
+                        fontSize: 36,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    // Email field
                     TextField(
                       controller: _emailCtrl,
-                      decoration: const InputDecoration(labelText: "Email"),
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: const InputDecoration(
+                        labelText: "Email",
+                        prefixIcon: Icon(Icons.email),
+                        border: OutlineInputBorder(),
+                      ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 20),
+                    // Password field
                     TextField(
                       controller: _passwordCtrl,
                       obscureText: true,
-                      decoration: const InputDecoration(labelText: "Password"),
+                      decoration: const InputDecoration(
+                        labelText: "Password",
+                        prefixIcon: Icon(Icons.lock),
+                        border: OutlineInputBorder(),
+                      ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 30),
+                    // Login button / loader
                     _loading
                         ? const CircularProgressIndicator()
                         : ElevatedButton(
                             onPressed: _login,
                             style: ElevatedButton.styleFrom(
-                                minimumSize: const Size.fromHeight(50)),
-                            child: const Text("Login"),
+                              minimumSize: const Size.fromHeight(50),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            child: const Text(
+                              "Login",
+                              style: TextStyle(fontSize: 16),
+                            ),
                           ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 20),
+                    // Navigate to Signup
                     TextButton(
                       onPressed: () {
                         Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => SignUpScreen())); // fixed
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const SignUpScreen()),
+                        );
                       },
-                      child: const Text("Don't have an account? Sign Up"),
+                      child: const Text(
+                        "Don't have an account? Sign Up",
+                        style: TextStyle(fontSize: 14),
+                      ),
                     ),
                   ],
                 ),
               ),
             ),
           ),
+
+          // Right side: Background image & text
           Expanded(
             flex: 5,
-            child: Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Color(0xFF138808), Color(0xFFFF9933)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: Image.asset(
+                    'assets/login_img.jpg',
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-              child: const Center(
-                child: Icon(
-                  Icons.login,
-                  size: 150,
-                  color: Colors.white,
+                Positioned(
+                  left: 50,
+                  top: 100,
+                  child: Text(
+                    "Let us help you!",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      shadows: [
+                        Shadow(
+                          blurRadius: 5,
+                          color: Colors.black54,
+                          offset: Offset(2, 2),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         ],
