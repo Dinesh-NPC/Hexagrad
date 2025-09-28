@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "570111097441",
+    "project_id": "hexagrad",
+    "storage_bucket": "hexagrad.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:570111097441:android:05dd17f4ace1576e1b0820",
+        "android_client_info": {
+          "package_name": "com.example.hexagrad"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "570111097441-aflbllgcquhqvc248fmgb0ca51t99oko.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hexagrad",
+            "certificate_hash": "06145d0460f3c2cf249e9c72a6acdcdc58d7a0e2"
+          }
+        },
+        {
+          "client_id": "570111097441-obikaidsquial8ll2s2kbb7rm9cliks5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBeoLboJ4HdwVDQCXgDbJZ7YFagAIWOAO8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "570111097441-obikaidsquial8ll2s2kbb7rm9cliks5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "570111097441-iogf0e8vhi19jbtun7rro2d308dsnt72.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.hexagrad"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
