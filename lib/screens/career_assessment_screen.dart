@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../data/assessment_data.dart';
+import 'career_result_screen.dart';
 
 class CareerAssessmentScreen extends StatefulWidget {
   const CareerAssessmentScreen({super.key});
@@ -97,21 +98,11 @@ class _CareerAssessmentScreenState extends State<CareerAssessmentScreen> {
       });
     }
 
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Recommended Career'),
-        content: Text(
-            'Based on your answers, suitable career(s) for you:\n\n$topCareers'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pop(); // go back to previous screen
-            },
-            child: const Text('OK'),
-          )
-        ],
+    // Navigate to result screen
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => CareerResultScreen(topCareers: topCareers),
       ),
     );
   }

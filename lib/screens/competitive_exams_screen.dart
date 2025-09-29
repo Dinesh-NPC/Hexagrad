@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../notifications_helper.dart';
 
 class CompetitiveExamsScreen extends StatefulWidget {
@@ -216,7 +217,30 @@ class _CompetitiveExamsScreenState extends State<CompetitiveExamsScreen> {
             ],
           ),
           const SizedBox(height: 8),
-          Text(content, style: const TextStyle(fontSize: 15, height: 1.5)),
+          if (title == "Official Link")
+            GestureDetector(
+              onTap: () async {
+                final url = Uri.parse(content);
+                if (await canLaunchUrl(url)) {
+                  await launchUrl(url);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Cannot open link')),
+                  );
+                }
+              },
+              child: Text(
+                content,
+                style: const TextStyle(
+                  fontSize: 15,
+                  height: 1.5,
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+            )
+          else
+            Text(content, style: const TextStyle(fontSize: 15, height: 1.5)),
         ],
       ),
     );
