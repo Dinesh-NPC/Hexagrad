@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../data/colleges_data.dart';
 
 class CollegeExplorer extends StatelessWidget {
-  const CollegeExplorer({Key? key}) : super(key: key);
+  const CollegeExplorer({super.key});
 
   // Show college details in a modal
   void showCollegeDetails(BuildContext context, College college) {
@@ -66,11 +66,11 @@ class CollegeExplorer extends StatelessWidget {
                       const SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: () => Navigator.pop(context),
-                        child: const Text("Close"),
                         style: ElevatedButton.styleFrom(
                             shape: const StadiumBorder(),
                             backgroundColor: Colors.blue,
                             foregroundColor: Colors.white),
+                        child: const Text("Close"),
                       )
                     ],
                   ),
@@ -214,7 +214,7 @@ class CollegeExplorer extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 8.0),
                             child: DropdownButtonFormField<College>(
-                              value: firstCollege,
+                              initialValue: firstCollege,
                               decoration: const InputDecoration(
                                 labelText: "Select First College",
                                 border: OutlineInputBorder(),
@@ -240,7 +240,7 @@ class CollegeExplorer extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 8.0),
                             child: DropdownButtonFormField<College>(
-                              value: secondCollege,
+                              initialValue: secondCollege,
                               decoration: const InputDecoration(
                                 labelText: "Select Second College",
                                 border: OutlineInputBorder(),
@@ -360,7 +360,7 @@ class CollegeExplorer extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.school, size: 50, color: Colors.blue),
+                          const Icon(Icons.school, size: 50, color: Colors.blue),
                           const SizedBox(height: 10),
                           Text(
                             college.name,
