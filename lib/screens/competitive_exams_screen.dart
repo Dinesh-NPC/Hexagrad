@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../notifications_helper.dart';
 
 class CompetitiveExamsScreen extends StatefulWidget {
   const CompetitiveExamsScreen({super.key});
@@ -12,6 +13,9 @@ class _CompetitiveExamsScreenState extends State<CompetitiveExamsScreen> {
   final CollectionReference examsCollection =
       FirebaseFirestore.instance.collection('competitiveExams');
 
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,10 +25,7 @@ class _CompetitiveExamsScreenState extends State<CompetitiveExamsScreen> {
         backgroundColor: Colors.white,
         title: const Text(
           "Competitive Exams",
-          style: TextStyle(
-            color: Colors.black87,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold),
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.black87),
@@ -38,6 +39,12 @@ class _CompetitiveExamsScreenState extends State<CompetitiveExamsScreen> {
             padding: const EdgeInsets.all(16),
             color: Colors.white,
             child: TextField(
+              controller: _searchController,
+              onChanged: (value) {
+                setState(() {
+                  _searchQuery = value.toLowerCase();
+                });
+              },
               decoration: InputDecoration(
                 hintText: "Search exams...",
                 prefixIcon: const Icon(Icons.search, color: Colors.blue),
@@ -51,70 +58,41 @@ class _CompetitiveExamsScreenState extends State<CompetitiveExamsScreen> {
               ),
             ),
           ),
-          
+
           // Exams List
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: examsCollection.snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.error_outline, size: 60, color: Colors.red[300]),
-                        const SizedBox(height: 16),
-                        const Text("Something went wrong",
-                            style: TextStyle(fontSize: 18)),
-                      ],
-                    ),
-                  );
+                  return const Center(child: Text("Something went wrong"));
                 }
-
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
+                  return const Center(child: CircularProgressIndicator());
                 }
 
-                final exams = snapshot.data!.docs;
+                final exams = snapshot.data!.docs
+                    .where((doc) => (doc['name'] ?? '')
+                        .toString()
+                        .toLowerCase()
+                        .contains(_searchQuery))
+                    .toList();
 
                 if (exams.isEmpty) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.note_alt_outlined,
-                            size: 60, color: Colors.grey[400]),
-                        const SizedBox(height: 16),
-                        Text("No exams available",
-                            style:
-                                TextStyle(fontSize: 18, color: Colors.grey[600])),
-                      ],
-                    ),
-                  );
+                  return const Center(child: Text("No exams available"));
                 }
 
                 return ListView.builder(
                   padding: const EdgeInsets.all(16),
                   itemCount: exams.length,
                   itemBuilder: (context, index) {
-                    final exam = exams[index].data() as Map<String, dynamic>;
+                    final exam = exams[index].data() as Map<String, dynamic>? ?? {};
 
-                    return AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
+                    return Card(
                       margin: const EdgeInsets.only(bottom: 16),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.blue.withOpacity(0.1),
-                            blurRadius: 20,
-                            offset: const Offset(0, 5),
-                          ),
-                        ],
-                      ),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16)),
+                      elevation: 2,
                       child: ExpansionTile(
                         leading: Container(
                           padding: const EdgeInsets.all(10),
@@ -126,81 +104,81 @@ class _CompetitiveExamsScreenState extends State<CompetitiveExamsScreen> {
                         ),
                         title: Text(
                           exam['name'] ?? 'Unknown Exam',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                        subtitle: Text(
-                          exam['eligibility']?.toString().split('.')[0] ?? '',
-                          style: TextStyle(color: Colors.grey[600]),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         children: [
-                          Container(
+                          Padding(
                             padding: const EdgeInsets.all(16),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 if (exam['eligibility'] != null)
-                                  _buildInfoSection(
-                                    "Eligibility",
-                                    exam['eligibility'],
-                                    Icons.person_outline,
-                                  ),
+                                  _buildInfoSection("Eligibility",
+                                      exam['eligibility'], Icons.person_outline),
                                 if (exam['syllabus'] != null)
                                   _buildInfoSection(
-                                    "Syllabus",
-                                    exam['syllabus'],
-                                    Icons.book_outlined,
-                                  ),
+                                      "Syllabus", exam['syllabus'], Icons.book_outlined),
                                 if (exam['examPattern'] != null)
-                                  _buildInfoSection(
-                                    "Exam Pattern",
-                                    exam['examPattern'],
-                                    Icons.rule_outlined,
-                                  ),
+                                  _buildInfoSection("Exam Pattern",
+                                      exam['examPattern'], Icons.rule_outlined),
                                 if (exam['importantDates'] != null)
                                   _buildDatesSection(
-                                    exam['importantDates'] as Map<String, dynamic>,
-                                  ),
+                                      Map<String, dynamic>.from(
+                                          exam['importantDates'])),
                                 if (exam['applicationProcess'] != null)
-                                  _buildInfoSection(
-                                    "Application Process",
-                                    exam['applicationProcess'],
-                                    Icons.edit_document,
-                                  ),
+                                  _buildInfoSection("Application Process",
+                                      exam['applicationProcess'], Icons.edit_document),
                                 if (exam['officialLink'] != null)
                                   _buildInfoSection(
-                                    "Official Link",
-                                    exam['officialLink'],
-                                    Icons.link,
-                                  ),
-                                
+                                      "Official Link", exam['officialLink'], Icons.link),
+
                                 const SizedBox(height: 16),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     ElevatedButton.icon(
                                       onPressed: () {
+                                        final examName = exam['name'] ?? 'Exam';
+                                        final lastDate = exam['importantDates'] != null
+                                            ? exam['importantDates']['Last Date to Apply']
+                                            : null;
+
+                                        String message;
+                                        if (lastDate != null) {
+                                          message =
+                                              "Reminder: $examName! Last date to apply is $lastDate";
+                                        } else {
+                                          message =
+                                              "Reminder: $examName! Check the exam details.";
+                                        }
+
+                                        // 1️⃣ Delayed 5-sec meaningful notification
+                                        NotificationsHelper.showDelayedNotification(
+                                          'Exam Reminder: $examName',
+                                          message,
+                                          delaySeconds: 5,
+                                        );
+
+                                        // 2️⃣ Scheduled notification for real exam date
+                                        if (lastDate != null) {
+                                          final examDate = DateTime.parse(lastDate);
+                                          NotificationsHelper.scheduleNotificationAtDate(
+                                            'Exam Reminder: $examName',
+                                            message,
+                                            examDate,
+                                          );
+                                        }
+
                                         ScaffoldMessenger.of(context).showSnackBar(
-                                          const SnackBar(
-                                            content: Text(
-                                              "Reminder will be set soon",
-                                              style: TextStyle(fontSize: 16),
-                                            ),
-                                            behavior: SnackBarBehavior.floating,
-                                          ),
+                                          const SnackBar(content: Text("Notifications scheduled!")),
                                         );
                                       },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.blue,
                                         padding: const EdgeInsets.symmetric(
-                                          horizontal: 20,
-                                          vertical: 12,
-                                        ),
+                                            horizontal: 20, vertical: 12),
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(30),
-                                        ),
+                                            borderRadius: BorderRadius.circular(30)),
                                       ),
                                       icon: const Icon(Icons.notifications),
                                       label: const Text("Set Reminder"),
@@ -233,25 +211,12 @@ class _CompetitiveExamsScreenState extends State<CompetitiveExamsScreen> {
             children: [
               Icon(icon, size: 20, color: Colors.blue),
               const SizedBox(width: 8),
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
-              ),
+              Text(title,
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold))
             ],
           ),
           const SizedBox(height: 8),
-          Text(
-            content,
-            style: TextStyle(
-              fontSize: 15,
-              color: Colors.grey[700],
-              height: 1.5,
-            ),
-          ),
+          Text(content, style: const TextStyle(fontSize: 15, height: 1.5)),
         ],
       ),
     );
@@ -267,14 +232,8 @@ class _CompetitiveExamsScreenState extends State<CompetitiveExamsScreen> {
             children: [
               Icon(Icons.calendar_today, size: 20, color: Colors.blue),
               SizedBox(width: 8),
-              Text(
-                "Important Dates",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
-              ),
+              Text("Important Dates",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))
             ],
           ),
           const SizedBox(height: 8),
@@ -282,21 +241,13 @@ class _CompetitiveExamsScreenState extends State<CompetitiveExamsScreen> {
                 padding: const EdgeInsets.only(bottom: 8),
                 child: Row(
                   children: [
-                    Text(
-                      "• ${e.key}:",
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 15,
-                      ),
-                    ),
+                    Text("• ${e.key}:",
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 15)),
                     const SizedBox(width: 8),
-                    Text(
-                      e.value.toString(),
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.grey[700],
-                      ),
-                    ),
+                    Text(e.value.toString(),
+                        style:
+                            const TextStyle(fontSize: 15, color: Colors.grey)),
                   ],
                 ),
               )),
