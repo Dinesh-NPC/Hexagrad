@@ -141,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: _buildMiniCard(
                   title: "ONGOING",
                   value: "Career Assessment",
-                  subtitle: "0% Completed",
+                  subtitle: _assessmentCompleted ? "100% Completed" : "0% Completed",
                   icon: Icons.assignment_outlined,
                   iconColor: Colors.orange,
                   onTap: () {
@@ -149,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       context,
                       MaterialPageRoute(
                           builder: (_) => const CareerAssessmentScreen()),
-                    );
+                    ).then((_) => _checkProfileStatus());
                   },
                 ),
               ),
@@ -553,7 +553,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   context,
                   MaterialPageRoute(
                       builder: (_) => const CareerAssessmentScreen()),
-                );
+                ).then((_) => _checkProfileStatus());
               },
             ),
             _buildSolutionCard(
@@ -572,11 +572,16 @@ class _HomeScreenState extends State<HomeScreen> {
               "Personalized Guidance",
               "One-on-one sessions with expert counsellors for career clarity.",
               Icons.person_outline,
-              () {},
+              () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const MentorsScreen()),
+                );
+              },
             ),
             _buildSolutionCard(
-              "College Application",
-              "Craft the perfect college application strategy with experts.",
+              "Explore Colleges",
+              "Discover and compare top colleges to find your perfect fit.",
               Icons.school_rounded,
               () {
                 Navigator.push(

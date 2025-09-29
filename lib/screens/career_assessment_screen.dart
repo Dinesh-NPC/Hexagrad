@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../data/assessment_data.dart';
 
 class CareerAssessmentScreen extends StatefulWidget {
@@ -79,13 +81,21 @@ class _CareerAssessmentScreenState extends State<CareerAssessmentScreen> {
     }
   }
 
-  void _showCareerResult() {
+  void _showCareerResult() async {
     // Sort careers by score descending
     var sortedCareers = careerScores.entries.toList()
       ..sort((a, b) => b.value.compareTo(a.value));
 
     // Get top 2 careers for better suggestion
     String topCareers = sortedCareers.take(2).map((e) => e.key).join(' & ');
+
+    // Update Firestore
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
+        'assessmentCompleted': true,
+      });
+    }
 
     showDialog(
       context: context,
