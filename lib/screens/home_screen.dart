@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'upload_exams_screen.dart';
 import 'competitive_exams_screen.dart';
 import 'career_assessment_screen.dart';
@@ -6,7 +8,8 @@ import 'chatbot_screen.dart';
 import 'college_explorer.dart';
 import 'profile_details_screen.dart';
 import 'dashboard.dart';
-import 'profile_screen.dart';
+import 'profile.dart';
+import 'profile_view.dart';
 import 'mentors_screen.dart';
 import 'locate_colleges_screen.dart';
 import 'contact_us_screen.dart'; // ✅ kept from old code
@@ -19,6 +22,31 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  bool _isProfileFilled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkProfileStatus();
+  }
+
+  Future<void> _checkProfileStatus() async {
+    final user = _auth.currentUser;
+    if (user != null) {
+      final doc = await _firestore.collection('users').doc(user.uid).get();
+      if (doc.exists) {
+        final data = doc.data()!;
+        if (data['firstName'] != null && data['firstName'].isNotEmpty) {
+          setState(() {
+            _isProfileFilled = true;
+          });
+        }
+      }
+    }
+  }
+
   // Progress Section
   Widget _buildProgressSection() {
     return Container(
@@ -82,9 +110,24 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: _buildMiniCard(
                   title: "COMING UP NEXT",
                   value: "Profile Details",
-                  subtitle: "Not Started",
+                  subtitle: _isProfileFilled ? "Completed" : "Not Started",
                   icon: Icons.person_outline,
-                  iconColor: Colors.redAccent,
+                  iconColor: _isProfileFilled ? Colors.green : Colors.redAccent,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const ProfileView()),
+                    );
+                  },
+                  button: _isProfileFilled ? ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const Profile(isEditMode: true)),
+                      );
+                    },
+                    child: const Text('Edit'),
+                  ) : null,
                 ),
               ),
             ],
@@ -100,45 +143,55 @@ class _HomeScreenState extends State<HomeScreen> {
     required String subtitle,
     required IconData icon,
     required Color iconColor,
+    VoidCallback? onTap,
+    Widget? button,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.grey.shade50,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade200),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(icon, color: iconColor, size: 24),
-          const SizedBox(height: 12),
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-              color: Color(0xFF2D3142),
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.grey.shade50,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.grey.shade200),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(icon, color: iconColor, size: 24),
+            const SizedBox(height: 12),
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: Color(0xFF2D3142),
+              ),
             ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            value,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF2D3142),
+            const SizedBox(height: 6),
+            Text(
+              value,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF2D3142),
+              ),
             ),
-          ),
-          const SizedBox(height: 2),
-          Text(
-            subtitle,
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey[600],
+            const SizedBox(height: 2),
+            Text(
+              subtitle,
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey[600],
+              ),
             ),
-          ),
-        ],
+            if (button != null) ...[
+              const SizedBox(height: 8),
+              button,
+            ],
+          ],
+        ),
       ),
     );
   }
@@ -285,13 +338,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (_) => const ProfileScreen(
-                      name: "User",
-                      email: "user@example.com",
-                      phone: "+91XXXXXXXXXX",
-                    ),
-                  ),
+                  MaterialPageRoute(builder: (_) => const ProfileView()),
                 );
               },
             ),
