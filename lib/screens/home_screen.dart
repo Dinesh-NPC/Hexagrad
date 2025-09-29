@@ -13,6 +13,7 @@ import 'profile_view.dart';
 import 'mentors_screen.dart';
 import 'locate_colleges_screen.dart';
 import 'contact_us_screen.dart'; // ✅ kept from old code
+import 'scholarship_details_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -278,7 +279,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(width: 12),
             const Text(
-              "EduCareer Hub",
+              "Pathora",
               style: TextStyle(
                 color: Color(0xFF2D3142),
                 fontSize: 20,
@@ -370,6 +371,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (_) => const CollegeExplorer()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.card_giftcard),
+              title: const Text('Scholarships'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const ScholarshipDetailsScreen()),
                 );
               },
             ),
@@ -517,12 +529,6 @@ class _HomeScreenState extends State<HomeScreen> {
               () {},
             ),
             _buildSolutionCard(
-              "Planning Tools",
-              "Build your profile and create a roadmap to your dream colleges.",
-              Icons.timeline_rounded,
-              () {},
-            ),
-            _buildSolutionCard(
               "College Application",
               "Craft the perfect college application strategy with experts.",
               Icons.school_rounded,
@@ -534,16 +540,15 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             _buildSolutionCard(
-              "My Resources",
-              "Access curated resources to explore career opportunities.",
-              Icons.folder_outlined,
-              () {},
-            ),
-            _buildSolutionCard(
-              "Test Prep & Others",
-              "Kick-start your journey with test prep & career plans.",
-              Icons.assignment_outlined,
-              () {},
+              "Scholarship Opportunities",
+              "Discover scholarships tailored to your profile and career goals.",
+              Icons.card_giftcard,
+              () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const ScholarshipDetailsScreen()),
+                );
+              },
             ),
           ],
         ),
