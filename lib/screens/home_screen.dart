@@ -26,6 +26,12 @@ class _HomeScreenState extends State<HomeScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   bool _isProfileFilled = false;
+  int _completedMilestones = 0;
+  bool _assessmentCompleted = false;
+  bool _examsExplored = false;
+  bool _guidanceUsed = false;
+  bool _collegeApplicationStarted = false;
+  bool _scholarshipsExplored = false;
 
   @override
   void initState() {
@@ -39,11 +45,20 @@ class _HomeScreenState extends State<HomeScreen> {
       final doc = await _firestore.collection('users').doc(user.uid).get();
       if (doc.exists) {
         final data = doc.data()!;
-        if (data['firstName'] != null && data['firstName'].isNotEmpty) {
-          setState(() {
-            _isProfileFilled = true;
-          });
-        }
+        setState(() {
+          _isProfileFilled = data['firstName'] != null && data['firstName'].isNotEmpty;
+          _assessmentCompleted = data['assessmentCompleted'] ?? false;
+          _examsExplored = data['examsExplored'] ?? false;
+          _guidanceUsed = data['guidanceUsed'] ?? false;
+          _collegeApplicationStarted = data['collegeApplicationStarted'] ?? false;
+          _scholarshipsExplored = data['scholarshipsExplored'] ?? false;
+          _completedMilestones = (_isProfileFilled ? 1 : 0) +
+            (_assessmentCompleted ? 1 : 0) +
+            (_examsExplored ? 1 : 0) +
+            (_guidanceUsed ? 1 : 0) +
+            (_collegeApplicationStarted ? 1 : 0) +
+            (_scholarshipsExplored ? 1 : 0);
+        });
       }
     }
   }
@@ -90,10 +105,35 @@ class _HomeScreenState extends State<HomeScreen> {
               Expanded(
                 child: _buildMiniCard(
                   title: "MY PROGRESS",
-                  value: "0/10",
+                  value: "$_completedMilestones/6",
                   subtitle: "Milestones Completed",
                   icon: Icons.trip_origin,
                   iconColor: Colors.blue,
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text('Your Progress'),
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            _buildProgressItem('Profile Details', _isProfileFilled),
+                            _buildProgressItem('Career Assessment', _assessmentCompleted),
+                            _buildProgressItem('Competitive Exams', _examsExplored),
+                            _buildProgressItem('Personalized Guidance', _guidanceUsed),
+                            _buildProgressItem('College Application', _collegeApplicationStarted),
+                            _buildProgressItem('Scholarship Opportunities', _scholarshipsExplored),
+                          ],
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text('Close'),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                 ),
               ),
               const SizedBox(width: 12),
@@ -104,6 +144,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   subtitle: "0% Completed",
                   icon: Icons.assignment_outlined,
                   iconColor: Colors.orange,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const CareerAssessmentScreen()),
+                    );
+                  },
                 ),
               ),
               const SizedBox(width: 12),
@@ -194,6 +241,16 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildProgressItem(String title, bool completed) {
+    return ListTile(
+      leading: Icon(
+        completed ? Icons.check_circle : Icons.radio_button_unchecked,
+        color: completed ? Colors.green : Colors.grey,
+      ),
+      title: Text(title),
     );
   }
 
@@ -289,18 +346,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const UploadExamsScreen()),
-              );
-            },
-            icon: Icon(Icons.upload_file, color: Colors.blue.shade700, size: 22),
-            tooltip: "Upload Dataset",
-          ),
-        ],
+
       ),
 
       // Drawer
@@ -499,7 +545,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 16),
 
             _buildSolutionCard(
-              "Career Shortlisting",
+              "Career Assessment",
               "Find your best-fit career with Psychometric Assessment & Internship Program.",
               Icons.checklist_rounded,
               () {
