@@ -9,9 +9,10 @@ import 'dashboard.dart';
 import 'profile_screen.dart';
 import 'mentors_screen.dart';
 import 'locate_colleges_screen.dart';
+import 'contact_us_screen.dart'; // ✅ kept from old code
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -248,7 +249,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
 
-      // Drawer from 2nd code
+      // Drawer
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -300,8 +301,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () {
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                      content: Text('Course Suggestions coming soon')),
+                  const SnackBar(content: Text('Course Suggestions coming soon')),
                 );
               },
             ),
@@ -364,8 +364,9 @@ class _HomeScreenState extends State<HomeScreen> {
               title: const Text('Contact Us'),
               onTap: () {
                 Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Contact Us coming soon')),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const ContactUsScreen()), // ✅ from old code
                 );
               },
             ),
