@@ -1,6 +1,6 @@
 # 🌟 Pathora  
 
-**Pathora** is a web and mobile platform developed by **Hexagrad** (6-member team) for **SIH Problem Statement SIH25094**.  
+**Pathora** is a web and mobile platform developed by **Hexagrad** for **SIH Problem Statement SIH25094**.  
 It is designed to guide students in discovering career paths, planning academics, and accessing personalized learning resources.  
 
 ---
