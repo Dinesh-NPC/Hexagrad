@@ -73,3 +73,16 @@ Set up chatbot API credentials in your .env or config file
 ```bash
 flutter run
 ```
+---
+
+## 👨‍💻 Author
+
+**T Dinesh Kumar**  
+B.Tech IT, Kumaraguru College of Technology  
+[LinkedIn](https://www.linkedin.com/in/dinesh-kumar-kct)  
+
+---
+
+## ⭐️ Show Your Support
+
+If you found this project useful, consider ⭐ starring the repository and sharing it!
