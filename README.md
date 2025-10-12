@@ -29,6 +29,18 @@ Pathora is a cross-platform mobile application built with **Flutter**, designed 
 ---
 
 ## 📲 Screens
+<img width="1920" height="1080" alt="Screenshot (9)" src="https://github.com/user-attachments/assets/79fc8c36-b577-4487-ad51-9a8a1769b4cf" />
+<img width="1920" height="1080" alt="Screenshot (10)" src="https://github.com/user-attachments/assets/d2891d04-8974-4e4b-ae01-16616c730483" />
+<img width="1920" height="1080" alt="Screenshot (11)" src="https://github.com/user-attachments/assets/5e74b901-5a17-4149-a711-9cf510ba5ccd" />
+<img width="1920" height="1080" alt="Screenshot (12)" src="https://github.com/user-attachments/assets/000bb1fa-2b71-43e5-954f-f36d9e71149a" />
+<img width="1920" height="1080" alt="Screenshot (13)" src="https://github.com/user-attachments/assets/d58251ff-3dac-4f49-a3e7-0549e579958c" />
+<img width="1920" height="1080" alt="Screenshot (14)" src="https://github.com/user-attachments/assets/0c3bc540-c7f8-4b12-90d5-5272cee841f8" />
+<img width="1920" height="1080" alt="Screenshot (15)" src="https://github.com/user-attachments/assets/809433b4-7192-4bfe-bf14-fe4cadbd4adc" />
+<img width="1920" height="1080" alt="Screenshot (16)" src="https://github.com/user-attachments/assets/d768e59a-3708-4f36-9041-2f6182de9b35" />
+<img width="1920" height="1080" alt="Screenshot (19)" src="https://github.com/user-attachments/assets/97f72b67-9bb8-4fba-9e08-47c6b6e5a78a" />
+<img width="1920" height="1080" alt="Screenshot (23)" src="https://github.com/user-attachments/assets/359c1d51-053c-4a0c-befd-5eb0c3f697ee" />
+<img width="1920" height="1080" alt="Screenshot (26)" src="https://github.com/user-attachments/assets/e6a2520f-c87c-4a31-a5df-0bd6d5755919" />
+<img width="1920" height="1080" alt="Screenshot (27)" src="https://github.com/user-attachments/assets/25b8436c-2b80-4d6a-86b9-cf62b42c6842" />
 
 
 
